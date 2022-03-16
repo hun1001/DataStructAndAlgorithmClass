@@ -5,7 +5,7 @@
 using namespace std;
 
 // 공개여부는 상관없느나 이름은 비공으로
-
+// 손볼곳 많음
 class Person {
 private:
 	
