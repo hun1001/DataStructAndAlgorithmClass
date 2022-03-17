@@ -41,6 +41,7 @@ public:
 			_sex = "여";
 			break;
 		default:
+			cout << "잘못입력함" << endl;
 			exit(-1);
 			break;
 		}
@@ -153,13 +154,15 @@ public:
 		_fout.open(str);
 	}
 
-	void InputFile(string str) {
-		_fout << str;
+	void InputFile(char* c) {
+		_fout << c;
 	}
 };
 
 
 int main() {
 	Person person;
+	FileSave file("Storage.txt");
+	file.InputFile(person._rrn);
 	person.PrintInfo();
 }
