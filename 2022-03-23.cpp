@@ -5,6 +5,8 @@ void P2(int arr[100]);
 void P3(int arr[100]);
 void PrintArr(int arr[100]);
 
+// 1단계만 해결
+
 int main() {
 	int arr[100] = { 0, };
 	int i1, i2;
@@ -14,6 +16,7 @@ int main() {
 		cout << i1 * 10 + i2 << " ";
 	}
 	PrintArr(arr);
+	// 2단계는 문제의 목적에 맞게 해결했으나 갑자기 문제에 없던 컴플레인이 들어와 수정하던중 시간이 없는 관계로 보다는 실력 부족으로 완성 못함 위에 반복문은 어떤 느낌으로 해결할 것인지 적어둔 것입니다.
 }
 
 void PrintArr(int arr[100]) {
