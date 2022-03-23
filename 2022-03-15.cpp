@@ -2,7 +2,11 @@
 #include <ctime>
 #include <string>
 #include <fstream>
+#include <vector>
+#include <sstream>
 using namespace std;
+
+const string FileName = "Storage.txt";
 
 // 공개여부는 상관없느나 이름은 비공으로
 // 손볼곳 많음
@@ -149,20 +153,36 @@ public:
 class FileSave {
 private:
 	ofstream _fout;
+	ifstream _readFromFile;
+	vector<string> _memory;
+
+	void LoadMemory() {
+		stringstream ss;
+		_readFromFile.open(FileName);
+		ss << _readFromFile.rdbuf();
+		cout << ss.str();
+		_readFromFile.close();
+	}
+
 public:
-	FileSave(string str) {
-		_fout.open(str);
+	FileSave() {
+		_fout.open(FileName);
+		LoadMemory();
 	}
 
 	void InputFile(char* c) {
 		_fout << c;
+	}
+
+	~FileSave() {
+		_fout.close();
 	}
 };
 
 
 int main() {
 	Person person;
-	FileSave file("Storage.txt");
+	FileSave file;
 	file.InputFile(person._rrn);
 	person.PrintInfo();
 }
