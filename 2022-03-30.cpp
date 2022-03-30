@@ -28,9 +28,24 @@ int Fibonacci(int num) {
 	}
 }
 
+int FibonacciUseArr(int num) {
+	static int arr[10000] = { NULL, };
+	if (arr[num] != NULL) {
+		return arr[num];
+	}
+	else {
+		if (num == 1 || num == 2) {
+			return 1;
+		}
+		else {
+			arr[num] = Fibonacci(num - 1) + Fibonacci(num - 2);
+			return Fibonacci(num - 1) + Fibonacci(num - 2);
+		}
+	}
+}
 int main() {
 	int num;
 	cin >> num;
-	cout <<	Fibonacci(num);
+	cout <<	FibonacciUseArr(num);
 	return 0;
 }
