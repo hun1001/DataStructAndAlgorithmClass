@@ -186,3 +186,7 @@ int main() {
 	file.InputFile(person._rrn);
 	person.PrintInfo();
 }
+/* 이거 참고해서 고쳐야됨 근데 우선 순위 이슈로 나중에
+std::streampos s = filestream.tellg();
+stringstream ss << filestream.rdbuf();
+filestream.seekg(s);*/
