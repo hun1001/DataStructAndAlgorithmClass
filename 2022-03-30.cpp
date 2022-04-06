@@ -28,7 +28,7 @@ int Fibonacci(int num) {
 	}
 }
 
-int FibonacciUseArr(int num) {
+int FibonacciUseArr(int num)  {
 	static int arr[10000] = { NULL, };
 	if (arr[num] != NULL) {
 		return arr[num];
@@ -38,8 +38,7 @@ int FibonacciUseArr(int num) {
 			return 1;
 		}
 		else {
-			arr[num] = Fibonacci(num - 1) + Fibonacci(num - 2);
-			return Fibonacci(num - 1) + Fibonacci(num - 2);
+			return arr[num] = Fibonacci(num - 1) + Fibonacci(num - 2);
 		}
 	}
 }

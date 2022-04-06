@@ -5,6 +5,8 @@
 using namespace std;
 
 int fiboMap[10000] = { 0, };
+vector<int> numArr;
+
 int Fibo(int n) {
 	if (n == 0) {
 		exit(-1);
@@ -18,18 +20,20 @@ int Fibo(int n) {
 }
 
 void Fibonacci3() {
-	vector<int> numArr;
 	int num;
-	cin >> num;
-	for (int i = 0; i < num; i++) {
-		if (i == 0 || i == 1) {
-			numArr.push_back(1);
+	while (true)
+	{
+		cin >> num;
+		for (int i = numArr.size(); i < num; i++) {
+			if (i == 0 || i == 1) {
+				numArr.push_back(1);
+			}
+			else {
+				numArr.push_back(numArr[i - 1] + numArr[i - 2]);
+			}
 		}
-		else {
-			numArr.push_back(numArr[i - 1] + numArr[i - 2]);
-		}
+		cout << numArr[num-1] << endl;
 	}
-	cout << numArr[numArr.size() - 1] << endl;
 }
 
 // 미완성
@@ -37,6 +41,7 @@ void Fibonacci4() {
 	int i = 0;
 	int temp = 0;
 	int limit;
+	vector<int> numUnion;
 	fiboMap[1] = fiboMap[2] = 1;
 	srand((unsigned int)time(NULL));
 	int rnum = rand() % 10001;
@@ -49,9 +54,28 @@ void Fibonacci4() {
 	}
 	// 사용할 배열의 마지막 인덱스는 limit
 	limit = i - 1;
-	rnum -= fiboMap[i];
+	for (i = limit; i >= 0; i--) {
+		temp = fiboMap[i];
+		if(rnum - temp < 0) {
+			continue;
+		}
+		else {
+			numUnion.push_back(temp);
+			rnum -= temp;
+		}
+	}
+	if (rnum == 0) {
+		for(vector<int>::iterator it = numUnion.begin(); it != numUnion.end(); it++) {
+			if (*it != 0) {
+				cout << *it << " ";
+			}
+		}
+	}
+	else {
+		cout << -1 << endl;
+	}
 }
 
 int main() {
-	Fibonacci3();
+	Fibonacci4();
 }
