@@ -41,21 +41,26 @@ int GreatestCommonFactor() {
 	return 0;
 }
 
-
-// 이거 4번인데 미완임
-int Combination(int n, int r)
-{
-	if(n == 0)
-	{
+int Factorial(int num) {
+	if (num == 1) {
 		return 1;
 	}
-	return (n/((n-r)*r)) * Combination(n-1, r-1);
+	return num * Factorial(num - 1);
 }
 
-int main() {
+int Combination(int n, int r)
+{
+	return (Factorial(n)/(Factorial(n-r)*Factorial(r)));
+}
+
+int FindCombination() {
 	int n, r;
 	cin >> n >> r;
 	
 	cout << Combination(n, r) << endl;
 	return 0;
+}
+
+int main() {
+	return FindCombination();
 }

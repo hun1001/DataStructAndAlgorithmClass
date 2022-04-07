@@ -13,6 +13,10 @@ void OddNumPrt(int x, int y) {
 	OddNumPrt(x + 1, y);
 }
 
+/// <summary>
+/// 메인에 사용하는
+/// </summary>
+/// <returns></returns>
 int UseVector() {
 	int x, y;
 	cout << "작은 수부터 두 수를 입력하시오 : " << endl;
@@ -32,6 +36,10 @@ void OddNumPrtUseArr(int x, int y, int i = 0) {
 	OddNumPrtUseArr(x + 1, y, i);
 }
 
+/// <summary>
+/// 메인에 사용하는
+/// </summary>
+/// <returns></returns>
 int UseArr() {
 	int x, y;
 	cout << "작은 수부터 두 수를 입력하시오 : " << endl;
@@ -47,6 +55,7 @@ int UseArr() {
 	return 0;
 }
 
+// 2층 교무실 교육과정부
 int main() {
 	//UseVector();
 	UseArr();

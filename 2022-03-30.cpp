@@ -46,6 +46,6 @@ int FibonacciUseArr(int num)  {
 int main() {
 	int num;
 	cin >> num;
-	cout <<	FibonacciUseArr(num);
+	cout <<	Factorial(num);
 	return 0;
 }
