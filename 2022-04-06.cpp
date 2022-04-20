@@ -62,5 +62,7 @@ int FindCombination() {
 }
 
 int main() {
+	//return FindMaxNum();
+	//return GreatestCommonFactor();
 	return FindCombination();
 }

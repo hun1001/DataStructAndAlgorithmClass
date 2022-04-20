@@ -55,9 +55,8 @@ int UseArr() {
 	return 0;
 }
 
-// 2Ãþ ±³¹«½Ç ±³À°°úÁ¤ºÎ
 int main() {
 	//UseVector();
-	UseArr();
+	//UseArr();
 	return 0;
 }
