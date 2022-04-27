@@ -12,10 +12,10 @@ int main()
 	char cMemory;
 	
 	getline(cin, mathE);
-
 	for (int i = 0; i < mathE.length(); i++)
 	{
 		cMemory = mathE[i];
+		iMemory = 0;
 		switch (cMemory)
 		{
 		case '+':
@@ -30,7 +30,7 @@ int main()
 			st.pop();
 			iMemory -= st.top();
 			st.pop();
-			st.push(iMemory);
+			st.push(iMemory >= 0 ? iMemory : iMemory * -1);
 			break;
 		case '*':
 			iMemory = st.top();
