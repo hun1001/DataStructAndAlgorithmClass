@@ -1,41 +1,97 @@
-#include <iostream>
 #include <stack>
 #include <string>
-#include <queue>
+#include "CircleQueue.h"
+
+using namespace std;
 
 template<typename T>
 class MyQueue {
 public:
-    Queue() {
-        queue = new T[0];
-		front = 0;
-        rear = 0;
+    MyQueue(int qsize = 0) {
+        InitQueue(qsize);
     }
-    ~Queue() {}
 	
-private:
+protected:
     T* queue;
+    int qsize;
 	int front;
 	int rear;
+    int count;
 	
 public:
-	void Enqueue(T data) {
-		
+    void InitQueue(int qsize) {
+		queue = new T[qsize];
+        this->qsize = qsize;
+        front = rear = count = 0;
+    }
+	
+	virtual void Enqueue(T data) {
+        if (qsize <= count)
+        {
+			std::cout << "큐가 꽉 찼음" << std::endl;
+			return;
+        }
+        rear++;
+		queue[rear] = data;
+        count++;
 	}
 
 	T Dequeue() {
-		
+        if (count == 0) {
+            return queue[front];
+        }
+		front++;
+        count--;
+        return queue[front];
+	}
+
+    virtual int IsFull() {
+		return qsize == count;
+    }
+
+	virtual int IsEmpty() {
+		return count == 0;
 	}
 };
 
-template<typename T>
-class CircleQueue : public Queue<T> {
-	
-};
+int LinearQueue(void) {
+    int i;
+    MyQueue<int> q1;
+    q1.InitQueue(10); // 큐 초기화
+	for(i=1;i<=11;i++){ // 1~5까지 큐에 보관
+        cout << i << " 입력" << endl;
+        q1.Enqueue(i);
+    }
+
+    cout << endl;
+
+    while (!q1.IsEmpty()) { // 큐가 비어있지 않다면 반복
+        cout << q1.Dequeue() << " 출력\n"; // 큐에서 꺼내 온 값 출력
+    }
+    cout << endl;
+    return 0;
+}
 
 int main() {
+    //LinearQueue();
+    CircleQueue<int> q;
+    q.InitQueue(4); 
+    for (int i = 1; i < 5; i++) {
+        q.Enqueue(i);
+        q.print_queue();
+    }
 	
-    return HomeWork::TeachersCode::main();
+    for (int i = 1; i < 5; i++) {
+        q.Dequeue();
+        q.print_queue();
+    }
+	
+    for (int i = 1; i < 5; i++) {
+        q.Enqueue(i);
+        q.print_queue();
+    }
+	
+	return 0;
 }
 
 namespace HomeWork
