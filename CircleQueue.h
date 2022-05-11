@@ -19,7 +19,17 @@ public:
 
     void Enqueue(int data);
 
-    T Dequeue();
+    T Dequeue()
+    {
+        T num = NULL;
+        if (IsEmpty()) {
+            cout << "큐가 비었음\n";
+            return -1;
+        }
+        front = (front + 1) % qsize;
+        num = buf[front];
+        return num;
+    }
 
     void print_queue();
 

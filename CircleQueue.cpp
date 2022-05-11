@@ -32,19 +32,6 @@ void CircleQueue<T>::Enqueue(int data)
 }
 
 template<typename T>
-T CircleQueue<T>::Dequeue()
-{
-    T num = NULL;
-    if (IsEmpty()) {
-        cout << "큐가 비었음\n";
-        return -1;
-    }
-    front = (front + 1) % qsize;
-    num = buf[front];
-    return num;
-}
-
-template<typename T>
 void CircleQueue<T>::print_queue()
 {
     {
