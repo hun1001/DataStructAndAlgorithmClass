@@ -132,7 +132,7 @@ void Delete(node* ptr) {
     }
     cout << "input delete index :";
     cin >> index;
-    for (i = 0; i < index ; i++) {
+    for (i = 0; i < index - 1; i++) {
         ptr = ptr->next;
     }
 
