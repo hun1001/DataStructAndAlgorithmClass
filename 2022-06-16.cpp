@@ -37,11 +37,11 @@ public:
 		m_heap.pop_back();
 		int parent = 0;
 		int child = 1;
-		if (m_heap.size() == 0)	return;
-		while (child <= m_heap.size() - 1) {
+
+		while (child <= (int)m_heap.size() - 1) {
 			if(child < m_heap.size() - 1) 
 				if(m_heap[child] < m_heap[child + 1])
-					child++;
+					++child;
 			if (m_heap[parent] > m_heap[child]) break;
 			swap(m_heap[parent], m_heap[child]);
 			parent = child;
