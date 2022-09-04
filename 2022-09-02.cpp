@@ -1,34 +1,48 @@
 #include <iostream>
+#include <string>
 #include <vector>
 using namespace std;
 
+int Fac(int n) {
+	if (n == 0) {
+		return 1;
+	}
+	return n * Fac(n - 1);
+}
+
 int main()
 {
-	vector<int> vec(100);
-
-	for (int i = 0; i < vec.capacity(); ++i)
+	string str;
+	string temp = "";
+	vector<string> vec;
+	
+	getline(cin, str);
+	
+	for (string::iterator it = str.begin(); it != str.end(); it++)
 	{
-		vec.at(i) = i + 1;
+		temp.push_back(*it);
+		if (*it == ' ')
+		{
+			vec.push_back(temp);
+			temp = "";
+		}
 	}
 
-	for (auto i = vec.begin(); i != vec.end(); ++i)
+	if (temp != "")
 	{
-		
-		cout << *i << " ";
-	}
-
-	cout << endl;
-	
-	for (auto i = vec.rbegin(); i != vec.rend(); ++i)
-	{
-		cout << *i << " ";
+		vec.push_back(temp);
+		temp = "";
 	}
 	
-	cout << endl;
-	
-	for(auto i : vec)
+	for (int i = 0; i < Fac(vec.size()); ++i)
 	{
-		cout << i << " ";
+		for (auto it = vec.begin(); it != vec.end(); it++)
+		{
+			cout << *it;
+		}
+		vec.push_back(vec.front());
+		vec.erase(vec.begin());
+		cout << endl;
 	}
 	
 	return 0;
