@@ -138,7 +138,7 @@ namespace Search_Graph {
 	class SearchGraph : public NOVECTOR::AdjMatGraph
 	{
 	private:
-		bool visited[MAX_VTXS];
+		int visited[MAX_VTXS];
 	public:
 		void Reset_visited() {
 			for (int i = 0; i < size; ++i) {
@@ -160,7 +160,26 @@ namespace Search_Graph {
 		}
 
 		void BFS(int v) {
-			
+			fill_n(visited, MAX_VTXS, -1);
+			visited[v] = 0;
+			queue<char> q;
+			q.push(v);
+			while(!q.empty())
+			{
+				int i = q.front();
+				cout << getVertex(i) << " ";
+				q.pop();
+				for (int j = 0; j < size; ++j) {
+					if (Is_linked(i, j) && visited[j] < 0) {
+						visited[j] = visited[i] + 1;
+						q.push(j);
+					}
+				}
+			}
+
+			cout << endl << "\t    ";
+			for (int i = 0; i < size; ++i)
+				cout << visited[i] << " ";
 		}
 	};
 }
@@ -186,5 +205,7 @@ int main(void)
 	g.Reset_visited();
 	g.DFS(0);
 
+	cout << endl << "BFS Å½»ö => ";
+	g.BFS(0);
 	return 0;
 }
