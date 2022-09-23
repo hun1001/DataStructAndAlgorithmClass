@@ -47,7 +47,23 @@ void DFS(int sv)
 
 void BFS(int sv)
 {
-	
+	queue<vertex*> q;
+	q.push(&v[sv]);
+
+	while (!q.empty())
+	{
+		vertex* v1 = q.front();
+		cout << v1->id << " ";
+		v1->visited = true;
+		q.pop();
+		for (int i = 0; i < N; ++i)
+		{
+			if (isLinked(v1->id, v[i].id) && v[i].visited == false)
+			{
+				q.push(&v[i]);
+			}
+		}
+	}
 }
 
 int main()
@@ -67,8 +83,17 @@ int main()
 		e[i].v2 = n2;
 	}
 	
-	DFS(0);
-	BFS(0);
+	DFS(V);
+	
+	for (int i = 0; i < N; ++i)
+	{
+		v[i].id = i + 1;
+		v[i].visited = false;
+	}
+
+	cout << endl;
+	
+	BFS(V);
 	
 	return 0;
 }
