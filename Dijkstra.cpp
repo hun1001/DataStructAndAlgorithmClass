@@ -1,8 +1,15 @@
-#include <iostream>
-#define MAX_VTXS 255
-#define INF 9999999
-
 using namespace std;
+
+#include <iostream>
+#include <vector>
+#include <queue>
+
+#define MAX_VTXS	256	
+#define INF			9999
+
+int V, E, start, u, v, w;
+vector<pair<int, int>> weight[20001];
+priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
 
 class AdjMatGraph
 {
@@ -22,33 +29,34 @@ public:
 	{
 		size = 0;
 		for (int i = 0; i < MAX_VTXS; i++)
+		{
 			for (int j = 0; j < MAX_VTXS; j++)
-				setEdge(i, j, 0);
+			{
+				setEdge(i, j, INF);
+			}
+		}
 	}
 
-	void insertVertex(char name)
+	void insertVertex(char value)
 	{
-		if (!isFull())
-			vertices[size++] = name;
+		vertices[size++] = value;
 	}
 
-	void insertEdge(int u, int v)
+	void insertEdge(int i, int j, int weight)
 	{
-		setEdge(u, v, 1);
-		setEdge(v, u, 1);
+		setEdge(i, j, weight);
+		setEdge(j, i, weight);
 	}
 
 	void display()
 	{
-		cout << "  ";
-		for (int i = 0; i < size; i++)
-			cout << getVertex(i) << " ";
-		cout << endl;
-		for (int i = 0; i < size; i++)
+		for (int i = 0; i < size; ++i)
 		{
-			cout << getVertex(i) << " ";
-			for (int j = 0; j < size; j++)
-				cout << getEdge(i, j) << " ";
+			cout << vertices[i] << "  ";
+			for (int j = 0; j < size; ++j)
+			{
+				cout << adj[i][j] << " ";
+			}
 			cout << endl;
 		}
 	}
@@ -56,88 +64,196 @@ public:
 
 class shortestPath : public AdjMatGraph
 {
-    int dist[MAX_VTXS];
-    bool found[MAX_VTXS];
+	int dist[MAX_VTXS];
+	bool found[MAX_VTXS];
+
+	int parent[MAX_VTXS];
 
 public:
-    void PrintDistance()
-    {
-        for (int i = 0; i < size; ++i)
-        {
-            cout << dist[i] << " ";
-        }
-        cout << endl;
-    }
+	void PrintDistance()
+	{
+		for (int i = 0; i < size; ++i)
+		{
+			cout << dist[i] << " ";
+		}
+		cout << endl;
+	}
 
-    void insertEdge(int u, int v, int w)
-    {
-		setEdge(u, v, w);
-		setEdge(v, u, w);
-    }
+	int ChooseVertex()
+	{
+		int min = INF;
+		int minpos = -1;
+		for (int i = 0; i < size; ++i)
+		{
+			if (dist[i] < min && !found[i])
+			{
+				min = dist[i];
+				minpos = i;
+			}
+		}
+		return minpos;
+	}
 
-    int ChooseVertex()
-    {
-        int min = INF;
-        int minpos = -1;
-        for (int i = 0; i < size; ++i)
-        {
-            if (dist[i] < min && !found[i])
-            {
-                min = dist[i];
-                minpos = i;
-            }
-        }
-        return minpos;
-    }
+	void reset(int start)
+	{
+		for (int i = 0; i < size; ++i)
+		{
+			dist[i] = getEdge(start, i);
+			found[i] = false;
+		}
+		fill_n(parent, size, -1);
+		found[start] = true;
+		dist[start] = 0;
+		parent[start] = start;
+	}
+	
+	void dijikstra(int start)
+	{
+		reset(start);
+		for (int i = 0; i < size; ++i)
+		{
+			cout << "Step " << i + 1 << " : ";
+			PrintDistance();
+			int u = ChooseVertex();
+			found[u] = true;
 
-    void dijikstra(int start)
-    {
-        for (int i = 0; i < size; ++i)
-        {
-            dist[i] = getEdge(start, i);
-            found[i] = false;
-        }
-        found[start] = true;
-        dist[start] = 0;
+			for (int w = 0; w < size; ++w)
+			{
+				if (!found[w] && dist[w] > dist[u] + getEdge(w, u))
+				{
+					dist[w] = dist[u] + getEdge(w, u);
+				}
+			}
+		}
+	}
 
-        for (int i = 0; i < size; ++i)
-        {
-            cout << "Step " << i + 1 << " : ";
-            PrintDistance();
-            int u = ChooseVertex();
-            found[u] = true;
+	void dijikstra(int start, int end)
+	{
+		reset(start);
+		int next = -1;
+		cout << start << " 정점에서 시작!" << endl;
+		for (int i = 0; i < size; ++i)
+		{
+			if (next == end)
+			{
+				cout << "목적 정점 " << end << "에 도착" << endl;
+				break;
+			}
+			cout << "Step " << i + 1 << " : ";
+			PrintDistance();
+			next = ChooseVertex();
+			if (i == 0)
+			{
+				parent[next] = start;
+			}
+			cout << next << " 정점 최단경로 확정!" << endl;
+			found[next] = true;
 
-            for (int w = 0; w < size; ++w)
-            {
-                if (!found[w] && dist[w] > dist[u] + getEdge(w, u))
-                {
-                    dist[w] = dist[u] + getEdge(w, u);
-                }
-            }
-        }
-    }
+			for (int w = 0; w < size; ++w)
+			{
+				if (found[w] == false)
+				{
+					if (dist[next] + getEdge(next, w) < dist[w])
+					{
+						dist[w] = dist[next] + getEdge(next, w);
+						parent[w] = next;
+					}
+				}
+			}
+		}
+
+	}
+
+	void printPath(int start, int target)
+	{
+		if (start == target)
+		{
+			cout << "최단 경로는 " << start;
+			return;
+		}
+		printPath(start, parent[target]);
+		cout << " " << target;
+	}
 };
+
+vector<int> dijkstra(int start, int vertex)
+{
+	vector<int> dist(vertex, INF);
+	pq.push(make_pair(0, start));
+	dist[start] = 0;
+	while (!pq.empty())
+	{
+		int now = pq.top().second;
+		int sToNow = pq.top().first;
+		pq.pop();
+
+		if (dist[now] != sToNow)continue;
+		
+		for (auto n : weight[now])
+		{
+			int neighbor = n.second;
+			int NowToNeighbor = n.first;
+			if (dist[neighbor] > sToNow + NowToNeighbor)
+			{
+				dist[neighbor] = sToNow + NowToNeighbor;
+				pq.push(make_pair(dist[neighbor], neighbor));
+			}
+		}
+	}
+	return dist;
+}
 
 
 int main()
 {
-    shortestPath g;
-    for (int i = 0; i < 7; ++i)
-    {
-        g.insertVertex('A' + 1);
-    }
-    g.insertEdge(0, 1, 2);
-    g.insertEdge(0, 2, 7);
-    g.insertEdge(1, 2, 1);
-    g.insertEdge(1, 3, 3);
-    g.insertEdge(2, 4, 4);
-    g.insertEdge(2, 5, 5);
-    g.insertEdge(3, 2, 2);
-    g.insertEdge(3, 4, 3);
-    g.insertEdge(4, 5, 4);
-    g.insertEdge(4, 6, 1);
-    g.insertEdge(5, 6, 5);
+	/*shortestPath g;
+	for (int i = 0; i < 4; ++i)
+	{
+		g.insertVertex('A' + 1);
+	}*/
 
-    g.dijikstra(0);
+	/*g.insertEdge(0, 1, 2);
+	g.insertEdge(0, 2, 7);
+	g.insertEdge(1, 2, 1);
+	g.insertEdge(1, 3, 3);
+	g.insertEdge(2, 4, 4);
+	g.insertEdge(2, 5, 5);
+	g.insertEdge(3, 2, 2);
+	g.insertEdge(3, 4, 3);
+	g.insertEdge(4, 5, 4);
+	g.insertEdge(4, 6, 1);
+	g.insertEdge(5, 6, 5);
 
+	g.dijikstra(0);*/
+	
+	
+	/*g.insertEdge(0, 1, 2);
+	g.insertEdge(0, 2, 7);
+	g.insertEdge(1, 2, 1);
+	g.insertEdge(1, 3, 3);
+	g.insertEdge(3, 2, 2);
+
+	g.dijikstra(0, 2);	
+	g.printPath(0, 2);*/
+
+	ios_base::sync_with_stdio(0);
+	cin.tie(0);
+	cout.tie(0);
+
+	cin >> V >> E >> start;
+
+	for (int i = 0; i < E; ++i)
+	{
+		cin >> u >> v >> w;
+		weight[u].emplace_back(w, v);
+	}
+
+	vector<int> result = dijkstra(start, V + 1);
+
+	for (int i = 0; i <= V; ++i)
+	{
+		if (result[i] == INF)cout << "INF\n";
+		else cout << result[i] << "\n";
+	}
+	return 0;
 }
