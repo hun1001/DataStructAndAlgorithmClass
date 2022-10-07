@@ -26,6 +26,8 @@ public:
                 mapData[y][x].parent = nullptr;
             }
         }
+		Start = nullptr;
+		End = nullptr;
     }
 
     void SetObstacleBlock(int y, int x) {
@@ -39,7 +41,7 @@ public:
         list<Node*>::iterator iter1;
         for (iter1 = openList.begin(); iter1 != openList.end(); iter1++) {
             if (node == (*iter1)) {// 이미 openlist에 있는 노드이고
-                if ((*iter1) > node) { // openlist에 있던 기존 노드의 거리가 더 크면  
+                if ((*iter1)->F > node->F) { // openlist에 있던 기존 노드의 거리가 더 크면  
                     openList.erase(iter1); // 기존 노드를 지우고
                 }
                 else {  // openlist에 있던 기존 노드의 거리가 더 작으면 그대로 둠.
