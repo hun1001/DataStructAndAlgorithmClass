@@ -5,8 +5,8 @@ using namespace std;
 #include <queue>
 
 #define MAX_VTXS	256	
-#define INF			9999
-
+//const int INF = 987654321;
+#define INF 99999
 int V, E, start, u, v, w;
 vector<pair<int, int>> weight[20001];
 priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
@@ -206,6 +206,7 @@ vector<int> dijkstra(int start, int vertex)
 
 int main()
 {
+#pragma region ¡÷ºÆ
 	/*shortestPath g;
 	for (int i = 0; i < 4; ++i)
 	{
@@ -235,7 +236,7 @@ int main()
 
 	g.dijikstra(0, 2);	
 	g.printPath(0, 2);*/
-
+#pragma endregion
 	ios_base::sync_with_stdio(0);
 	cin.tie(0);
 	cout.tie(0);
@@ -248,9 +249,10 @@ int main()
 		weight[u].emplace_back(w, v);
 	}
 
+	//cout << "\n";
 	vector<int> result = dijkstra(start, V + 1);
 
-	for (int i = 0; i <= V; ++i)
+	for (int i = 1; i <= V; ++i)
 	{
 		if (result[i] == INF)cout << "INF\n";
 		else cout << result[i] << "\n";
